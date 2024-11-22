@@ -60,3 +60,40 @@ async function callWeatherAPI(latitude, longitude) {
         console.error('Error', error);
     }
 }
+
+//display dailyReport data in a table
+function displayData(dailyReport){
+    const dataContainer = document.getElementById('forecastDataContainer');
+    
+    //empty the div container
+    dataContainer.innerHTML = ''; 
+    // Create a table 
+    const table = document.createElement('table');
+    const headerRow = document.createElement('tr');
+    
+    // Create headers depending on object properties
+    const headers = Object.keys(dailyReport[0]);  
+    headers.forEach(header => {
+        const th = document.createElement('th');
+        th.textContent = header;
+        headerRow.appendChild(th);
+    });
+    table.appendChild(headerRow);
+
+    // Create rows for each object
+    dailyReport.forEach(item => {
+        const row = document.createElement('tr');
+
+        headers.forEach(header => {
+            const cell = document.createElement('td');
+            // Display the value of each item
+            cell.textContent = item[header];  
+            row.appendChild(cell);
+        });
+
+        table.appendChild(row);
+    });
+
+    // Append the table 
+    dataContainer.appendChild(table);
+} 
