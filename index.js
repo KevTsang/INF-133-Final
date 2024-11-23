@@ -11,9 +11,6 @@
 
 // ** 2. Initial Setup **
 
-    //prevent user from setting date before today
-    document.getElementById("new-event-date").setAttribute("min", today);
-
     //load all events in local storage
     window.addEventListener("DOMContentLoaded", loadEvents);
 
@@ -23,6 +20,8 @@
 
     openModal.addEventListener("click", () => {
         modal.showModal();
+        //prevent user from setting date before today
+        document.getElementById("new-event-date").setAttribute("min", today);
     });
 
     closeModal.addEventListener("click", () => {
@@ -52,11 +51,13 @@
             name: eventName,
             description: eventDescription,
             date: eventDate,
-            location: eventLocation
+            location: eventLocation,
+            completed: "false"
         };
         //Save data
         localStorage.setItem(Id, JSON.stringify(eventData));
-        insertEventToEventList(eventData);
+        const eventContainer = insertEventToEventList(eventData);
+        eventContainer.classList.add("newly-added");
 
         //clear input after submission and close
         document.getElementById("event-form").reset();
@@ -83,6 +84,7 @@
             eventToEditDiv.querySelector(".event-description").innerHTML = `<strong>Description:</strong> ${eventToEdit.description}`;
             eventToEditDiv.querySelector(".event-date").innerHTML = `<strong>Date:</strong> ${eventToEdit.date}`;
             eventToEditDiv.querySelector(".event-location").innerHTML = `<strong>Location:</strong> ${eventToEdit.location}`;
+            eventToEditDiv.classList.add("recently-edited");
 
             // Reset currentEventId
             currentEventId = null;
@@ -231,7 +233,7 @@
                 return 1;
             }
 
-            return dateA - dateB;
+            return dateB - dateA;
             });
     
         for (let i = 0; i < eventListToOrganzed.length; i++) {
@@ -258,6 +260,10 @@
             `;
 
         eventDiv.id = eventData.id;
+        if(eventData.completed == true)
+        {
+            eventDiv.classList.add("completed-event");
+        }
 
         eventDiv.onclick = () => {
             //set the id to edit
@@ -286,8 +292,22 @@
 
         eventDiv.querySelector(".mark-complete-button").onclick = (event) => {
             event.stopPropagation();
+            const completion = JSON.parse(localStorage.getItem(eventData.id));
+            if (completion && !completion.completed) {
+                completion.completed = true;
+                eventDiv.classList.add("completed-event");
+            }
+            else
+            {
+                completion.completed = false;
+                eventDiv.classList.remove("completed-event");
+            }
+            localStorage.setItem(eventData.id, JSON.stringify(completion));
+
             console.log("event id:", eventData.id);
         };
 
         eventContainer.insertBefore(eventDiv, eventContainer.firstChild);
+
+        return eventDiv;
     }

@@ -47,5 +47,18 @@ tr:nth-child(even) td {
 }
 
 .events:hover {
-    background-color: rgba(133, 133, 133, 0.158);
+    opacity: 0.9;
+    transform: scale(1.01);
   }
+
+.newly-added {
+    background-color: aqua;
+}
+
+.recently-edited {
+    background-color: rgb(250, 182, 98);
+}
+
+.completed-event {
+    /*Do some thing to show it's completed*/
+}
