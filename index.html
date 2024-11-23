@@ -15,6 +15,67 @@
     <input type="text" id="location" name="location">
     <button onclick="callGeocodingAPI()">Call Geocoding API</button>
 
+    <button class="open-modal">Add</button>
+
+    <!-- Modal for event input -->
+    <dialog class="modal">
+        <form class = "event-form" id="event-form" method="dialog">
+
+            <label for="new-event-name">Event Name</label>
+            <input id = "new-event-name" type="text"></input>
+
+            <label for="new-event-description">Event Description</label>
+            <textarea id="new-event-description" rows="4" cols="50"></textarea>
+
+            <fieldset>
+                <legend>Date</legend>
+                <label for="">
+                    Date:
+                    <input id="new-event-date" type="date">
+                </label>
+            </fieldset>
+
+            <label for="new-event-location">Event Location</label>
+            <label class = "sample" for="sample input">Sample Input: 260 Aldrich Hall Irvine, CA 92697</label>
+            <input id = "new-event-location" type="text"></input>
+
+            <button type="submit">Submit</button>
+        </form>
+        <button class="close-modal">Close</button>
+
+    </dialog>
+
+    <!-- display event here -->
+    <p class = "event-description">Event</p>
+    <button class = "refresh-button">refresh</button>
+    <div class = "event-container" id = "event-container"></div>
+
+    <!-- Modal for event edit -->
+    <dialog class="edit-modal">
+        <form class = "event-form" id="edit-event-form" method="dialog">
+            
+            <label for="edit-event-name">Event Name</label>
+            <input id="edit-event-name" type="text">
+    
+            <label for="edit-event-description">Event Description</label>
+            <textarea id="edit-event-description" rows="4" cols="50"></textarea>
+    
+            <fieldset>
+                <legend>Date</legend>
+                <label for="edit-event-date">Date:
+                    <input id="edit-event-date" type="date">
+                </label>
+            </fieldset>
+    
+            <label for="edit-event-location">Event Location</label>
+            <input id="edit-event-location" type="text">
+    
+            <button type="submit">Save Changes</button>
+        </form>
+    </dialog>
+
+
+
     <!-- display weather forecast here -->
     <div id="forecastDataContainer">
 
@@ -22,7 +83,33 @@
 
     </div>
 
-    <script src="index.js"></script>
+    <script src="index.js">
+        
+    </script>
 </body>
 
 </html>
+
+<!-- To-Do-List
+ 
+Add Event ✓
+Edit Event ✓
+Save Event in local storage ✓
+Retrieve events on refresh ✓
+Delete Event ✓
+Mark Event Complete
+Ordering Events based on date ✓
+Group Events by date
+Display Weather
+Error handeling
+CSS/Responsive
+
+-->
+
+<!-- Citation
+
+https://www.youtube.com/watch?v=ywtkJkxJsdg
+https://www.youtube.com/watch?v=VCklKwo2TmQ
+https://stackoverflow.com/questions/3316207/add-onclick-event-to-newly-added-element-in-javascript
+
+-->

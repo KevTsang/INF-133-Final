@@ -24,3 +24,28 @@ tr:nth-child(even) td {
     background-color: #f2f2f2;
 
 }
+
+.modal {
+    padding: 0.5rem;
+    z-index: 10;
+}
+
+.event-form {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.sample {
+    color: rgb(138, 138, 138);
+}
+
+.events {
+    background-color: #cfcfcf;
+    transition: transform 0.5s;
+    padding: 0.3rem;
+    margin: 0.5rem;
+}
+
+.events:hover {
+    background-color: rgba(133, 133, 133, 0.158);
+  }
