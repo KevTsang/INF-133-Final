@@ -5,6 +5,10 @@
     const closeModal = document.querySelector(".close-modal");
     const modal = document.querySelector(".modal");
     const today = new Date().toISOString().split('T')[0];
+    const newStartTimeInput = document.getElementById('new-event-start-time');
+    const newEndTimeInput = document.getElementById('new-event-end-time');
+    const editStartTimeInput = document.getElementById('edit-event-start-time');
+    const editEndTimeInput = document.getElementById('edit-event-end-time');
 
     //current ID to edit
     let currentEventId = null;
@@ -17,12 +21,52 @@
 
 // ** 3. Event Listeners **
 
+    //prevent user from setting end time before start time
+    newStartTimeInput.addEventListener('input', () => {
+        const startTime = newStartTimeInput.value;
+        const endTime = newEndTimeInput.value;
 
+        if (startTime && endTime && endTime <= startTime) {
+            alert('End time must be after start time');
+            newStartTimeInput.value = '';
+        }
+    });
+    newEndTimeInput.addEventListener('input', () => {
+        const startTime = newStartTimeInput.value;
+        const endTime = newEndTimeInput.value;
+
+        if (startTime && endTime && endTime <= startTime) {
+            alert('End time must be after start time');
+            newEndTimeInput.value = '';
+        }
+    });
+    editStartTimeInput.addEventListener('input', () => {
+        const startTime = editStartTimeInput.value;
+        const endTime = editEndTimeInput.value;
+
+        if (startTime && endTime && endTime <= startTime) {
+            alert('End time must be after start time');
+            editStartTimeInput.value = '';
+        }
+    });
+    editEndTimeInput.addEventListener('input', () => {
+        const startTime = editStartTimeInput.value;
+        const endTime = editEndTimeInput.value;
+
+        if (startTime && endTime && endTime <= startTime) {
+            alert('End time must be after start time');
+            editEndTimeInput.value = '';
+        }
+    });
+
+
+    //prevent user from setting date before today
     openModal.addEventListener("click", () => {
         modal.showModal();
-        //prevent user from setting date before today
         document.getElementById("new-event-date").setAttribute("min", today);
     });
+
+
 
     closeModal.addEventListener("click", () => {
         modal.close();
@@ -32,18 +76,22 @@
         loadEvents();
     });
 
-    // Event listener to handle form submission
+    // Event listener to handle form submission when creating new events
     document.getElementById("event-form").addEventListener("submit", () => {
 
         const Id = `event-${Date.now()}-${Math.floor(Math.random() * 100000)}`;
         const eventName = document.getElementById("new-event-name").value;
         const eventDescription = document.getElementById("new-event-description").value;
         const eventDate = document.getElementById("new-event-date").value;
+        const startTime = document.getElementById("new-event-start-time").value;
+        const endTime = document.getElementById("new-event-end-time").value;
         const eventLocation = document.getElementById("new-event-location").value;
 
         console.log("Event Name:", eventName);
         console.log("Event Description:", eventDescription);
         console.log("Event Date:", eventDate);
+        console.log("Event Start Time:", startTime);
+        console.log("Event End Time:", endTime);
         console.log("Event Location:", eventLocation);
 
         const eventData = {
@@ -51,6 +99,8 @@
             name: eventName,
             description: eventDescription,
             date: eventDate,
+            startTime: startTime,
+            endTime : endTime,
             location: eventLocation,
             completed: "false"
         };
@@ -66,6 +116,7 @@
 
     });
 
+    //Event listener to update event information
     document.getElementById("edit-event-form").addEventListener("submit", () => {
         if (currentEventId) {
         
@@ -75,6 +126,8 @@
             eventToEdit.name = document.getElementById("edit-event-name").value;
             eventToEdit.description = document.getElementById("edit-event-description").value;
             eventToEdit.date = document.getElementById("edit-event-date").value;
+            eventToEdit.startTime = document.getElementById("edit-event-start-time").value;
+            eventToEdit.endTime = document.getElementById("edit-event-end-time").value;
             eventToEdit.location = document.getElementById("edit-event-location").value;
 
             localStorage.setItem(currentEventId, JSON.stringify(eventToEdit));
@@ -83,6 +136,8 @@
             eventToEditDiv.querySelector(".event-name").innerHTML = `<strong>Name:</strong> ${eventToEdit.name}`;
             eventToEditDiv.querySelector(".event-description").innerHTML = `<strong>Description:</strong> ${eventToEdit.description}`;
             eventToEditDiv.querySelector(".event-date").innerHTML = `<strong>Date:</strong> ${eventToEdit.date}`;
+            eventToEditDiv.querySelector(".event-start-time").innerHTML = `<strong>Start Time:</strong> ${eventToEdit.startTime}`;
+            eventToEditDiv.querySelector(".event-end-time").innerHTML = `<strong>End Time:</strong> ${eventToEdit.endTime}`;
             eventToEditDiv.querySelector(".event-location").innerHTML = `<strong>Location:</strong> ${eventToEdit.location}`;
             eventToEditDiv.classList.add("recently-edited");
 
@@ -98,30 +153,30 @@
 // ** 4. Main Functions / Helper Functions **
 
     async function callGeocodingAPI() {
-    const apiKey = 'AIzaSyDI5PSATFRSVSgm9_BoWtZHYw-9YdbUWT4';
-    const address = document.getElementById("location").value; //User Input
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
+        const apiKey = 'AIzaSyDI5PSATFRSVSgm9_BoWtZHYw-9YdbUWT4';
+        const address = document.getElementById("location").value; //User Input
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
 
-    console.log(encodeURIComponent(address));
+        console.log(encodeURIComponent(address));
 
-    const coordinates = fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            if (data.results && data.results.length > 0) {
-                    const location = data.results[0].geometry.location;
-                    const latitude = location.lat;
-                    const longitude = location.lng;
-                    console.log(latitude + " " + longitude);
-                    
-                    return { latitude, longitude };
-            }
-        })
-        .then(coordinates => {
-            callWeatherAPI(coordinates.latitude, coordinates.longitude);
-        })
-        .catch(error => {
-            console.error('Error', error);
-        });
+        const coordinates = fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.results && data.results.length > 0) {
+                        const location = data.results[0].geometry.location;
+                        const latitude = location.lat;
+                        const longitude = location.lng;
+                        console.log(latitude + " " + longitude);
+                        
+                        return { latitude, longitude };
+                }
+            })
+            .then(coordinates => {
+                callWeatherAPI(coordinates.latitude, coordinates.longitude);
+            })
+            .catch(error => {
+                console.error('Error', error);
+            });
     }
 
     async function callWeatherAPI(latitude, longitude) {
@@ -215,25 +270,40 @@
             eventListToOrganzed.push(eventData);
         }
 
-        //Sort by descending order, if no date found, move to front
+        //Sort by ascending order, if no date found, move to back
         eventListToOrganzed.sort((a, b) => {
-            const dateA = new Date(a.date);
-            const dateB = new Date(b.date);
-        
-            const isDateAInvalid = isNaN(dateA);
-            const isDateBInvalid = isNaN(dateB);
-        
-            if (isDateAInvalid && isDateBInvalid) {
-                return 0;
-            }
-            if (isDateAInvalid) {
+
+            //sort by date
+            if (!a.date) {
                 return -1;
             }
-            if (isDateBInvalid) {
+            else if (!b.date) {
                 return 1;
             }
+            else if (a.date !== b.date) {
+                return b.date - a.date;
+            }
 
-            return dateB - dateA;
+            //if same day, sort by start Time
+            if (!a.startTime) {
+                return 1;
+            }
+            else if (!b.startTime) {
+                return -1;
+            }
+            else if (a.startTime !== b.startTime) {
+                return a.startTime > b.startTime ? -1 : 1;
+            }
+
+            // if same start, sort by end
+            if (!a.endTime) {
+                return 1;
+            }
+            if (!b.endTime) {
+                return -1;
+            }
+
+            return a.endTime > b.endTime ? -1 : 1;
             });
     
         for (let i = 0; i < eventListToOrganzed.length; i++) {
@@ -252,6 +322,8 @@
                 <h3 class="event-name"><strong>Name:</strong> ${eventData.name}</h3>
                 <p class="event-description"><strong>Description:</strong> ${eventData.description}</p>
                 <p class="event-date"><strong>Date:</strong> ${eventData.date}</p>
+                <p class="event-start-time"><strong>Start Time:</strong> ${eventData.startTime}</p>
+                <p class="event-end-time"><strong>End Time:</strong> ${eventData.endTime}</p>
                 <p class="event-location"><strong>Location:</strong> ${eventData.location}</p>
 
                 <button class="delete-button">Delete</button>
@@ -275,6 +347,8 @@
             document.getElementById("edit-event-name").value = eventToEdit.name;
             document.getElementById("edit-event-description").value = eventToEdit.description;
             document.getElementById("edit-event-date").value = eventToEdit.date;
+            document.getElementById("edit-event-start-time").value = eventToEdit.startTime;
+            document.getElementById("edit-event-end-time").value = eventToEdit.endTime;
             document.getElementById("edit-event-location").value = eventToEdit.location;
 
             currentEventId = eventData.id;
