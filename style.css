@@ -179,7 +179,7 @@ input:focus, textarea:focus {
 
 
 
-/* 
+
 
 .newly-added {
     background-color: aqua;
@@ -189,7 +189,7 @@ input:focus, textarea:focus {
     background-color: rgb(250, 182, 98);
 }  
 
-*/
+
 
 .completed-event .event-name {
     text-decoration: line-through;

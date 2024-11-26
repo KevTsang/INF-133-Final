@@ -12,6 +12,7 @@
 
     //current ID to edit
     let currentEventId = null;
+    let address = null; 
 
 // ** 2. Initial Setup **
 
@@ -109,9 +110,13 @@
         const eventContainer = insertEventToEventList(eventData);
         eventContainer.classList.add("newly-added");
 
+
+
+       
         //clear input after submission and close
         document.getElementById("event-form").reset();
         document.querySelector(".modal").close();
+
         
 
     });
@@ -141,10 +146,18 @@
             eventToEditDiv.querySelector(".event-location").innerHTML = `<strong>Location:</strong> ${eventToEdit.location}`;
             eventToEditDiv.classList.add("recently-edited");
 
+
+           
+
             // Reset currentEventId
             currentEventId = null;
 
+
+
             document.querySelector(".edit-modal").close();
+
+
+
         }
     });
 
@@ -335,6 +348,7 @@
                 
             `;
 
+            
         eventDiv.id = eventData.id;
         if(eventData.completed == true)
         {
@@ -358,6 +372,7 @@
             currentEventId = eventData.id;
             openEditModal.showModal();
             document.getElementById("edit-event-date").setAttribute("min", today);
+  
         };
 
         eventDiv.querySelector(".delete-button").onclick = (event) => {
@@ -389,8 +404,8 @@
         //get weather forecast
         eventDiv.querySelector(".get-weather-button").onclick = (event) => {
             event.stopPropagation();
-            const address = document.getElementById("edit-event-location").value; 
-            callGeocodingAPI(address); 
+            const id = JSON.parse(localStorage.getItem(eventData.id));
+            callGeocodingAPI(id.location); 
 
 
         };
