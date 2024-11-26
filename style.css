@@ -180,24 +180,24 @@ input:focus, textarea:focus {
 
 
 
-
+/* Change background color for new and edited events */
 .newly-added {
-    background-color: aqua;
+    background-color: #f3efef;
 }
 
 .recently-edited {
-    background-color: rgb(250, 182, 98);
+    background-color: #d4dbe4;
 }  
 
 
 
 .completed-event .event-name {
     text-decoration: line-through;
-    color:#04A777
+    color:#40994f
 }
 .completed-event .event-description {
     text-decoration: line-through;
-    color:#04A777
+    color:#40994f
 }
 
 .sample{
@@ -216,7 +216,6 @@ input:focus, textarea:focus {
 }
 /* style each event thats dynamically added */
 .events {
-    background-color: rgba(150, 150, 168, 0.1);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin-bottom: 15px;
@@ -242,7 +241,7 @@ input:focus, textarea:focus {
     margin-bottom: 10px;
 }
 .event-location {
-    font-size: 12px;
+    font-size: 14px;
     color: black;
     margin-top: 10px;
 }
