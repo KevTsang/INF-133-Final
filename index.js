@@ -388,6 +388,7 @@
 
         //get weather forecast
         eventDiv.querySelector(".get-weather-button").onclick = (event) => {
+            event.stopPropagation();
             const address = document.getElementById("edit-event-location").value; 
             callGeocodingAPI(address); 
 
