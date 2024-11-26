@@ -133,8 +133,8 @@
             localStorage.setItem(currentEventId, JSON.stringify(eventToEdit));
 
             const eventToEditDiv = document.getElementById(currentEventId);
-            eventToEditDiv.querySelector(".event-name").innerHTML = `<strong>Name:</strong> ${eventToEdit.name}`;
-            eventToEditDiv.querySelector(".event-description").innerHTML = `<strong>Description:</strong> ${eventToEdit.description}`;
+            eventToEditDiv.querySelector(".event-name").innerHTML = `<strong></strong> ${eventToEdit.name}`;
+            eventToEditDiv.querySelector(".event-description").innerHTML = `<strong></strong> ${eventToEdit.description}`;
             eventToEditDiv.querySelector(".event-date").innerHTML = `<strong>Date:</strong> ${eventToEdit.date}`;
             eventToEditDiv.querySelector(".event-start-time").innerHTML = `<strong>Start Time:</strong> ${eventToEdit.startTime}`;
             eventToEditDiv.querySelector(".event-end-time").innerHTML = `<strong>End Time:</strong> ${eventToEdit.endTime}`;
@@ -152,9 +152,8 @@
 
 // ** 4. Main Functions / Helper Functions **
 
-    async function callGeocodingAPI() {
+    async function callGeocodingAPI(address) {
         const apiKey = 'AIzaSyDI5PSATFRSVSgm9_BoWtZHYw-9YdbUWT4';
-        const address = document.getElementById("location").value; //User Input
         const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
 
         console.log(encodeURIComponent(address));
@@ -315,20 +314,25 @@
     //Insert a eventData to the front of div class "event-container"
     function insertEventToEventList(eventData)
     {
+
         const eventContainer = document.getElementById("event-container");
         const eventDiv = document.createElement("div");
         eventDiv.classList.add("events");
         eventDiv.innerHTML = `
-                <h3 class="event-name"><strong>Name:</strong> ${eventData.name}</h3>
-                <p class="event-description"><strong>Description:</strong> ${eventData.description}</p>
-                <p class="event-date"><strong>Date:</strong> ${eventData.date}</p>
-                <p class="event-start-time"><strong>Start Time:</strong> ${eventData.startTime}</p>
-                <p class="event-end-time"><strong>End Time:</strong> ${eventData.endTime}</p>
-                <p class="event-location"><strong>Location:</strong> ${eventData.location}</p>
+                <h3 class="event-name"> ${eventData.name}</h3>
+                <div class="event-description"> ${eventData.description}</div>
+                
+                <div class="event-info">
+                    <span class="event-date"><strong>Date:</strong> ${eventData.date}</span>
+                    <span class="event-start-time"><strong>Start Time:</strong> ${eventData.startTime}</span>
+                    <span class="event-end-time"><strong>End Time:</strong> ${eventData.endTime}</span>
+                    <span class="event-location"><strong>Location:</strong> ${eventData.location}</span>
 
-                <button class="delete-button">Delete</button>
-                <button class="mark-complete-button">Mark Complete</button>
-                <button class="get-weather-button">Get Weather</button>
+                </div>
+                <button class="delete-button">Delete</button>           
+                <button class="mark-complete-button">Complete</button>
+                <button class="get-weather-button">Weather</button >
+                
             `;
 
         eventDiv.id = eventData.id;
@@ -363,6 +367,7 @@
             loadEvents();
 
         };
+     
 
         eventDiv.querySelector(".mark-complete-button").onclick = (event) => {
             event.stopPropagation();
@@ -381,6 +386,13 @@
             console.log("event id:", eventData.id);
         };
 
+        //get weather forecast
+        eventDiv.querySelector(".get-weather-button").onclick = (event) => {
+            const address = document.getElementById("edit-event-location").value; 
+            callGeocodingAPI(address); 
+
+
+        };
         eventContainer.insertBefore(eventDiv, eventContainer.firstChild);
 
         return eventDiv;
