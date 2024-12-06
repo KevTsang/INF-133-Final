@@ -10,108 +10,112 @@
 </head>
 
 <body>
-    <h1>Todo App with Weather Forecast</h1>
-    <button class="open-modal">Add Event</button>
-    
-    <!-- <label for="fname">Location:</label>
-    <input type="text" id="location" name="location">
-    <button onclick="callGeocodingAPI()">Call Geocoding API</button> -->
+    <div class="front-page">
+        <h1>Todo App with Weather Forecast</h1>
+        <button class="open-modal">Add Event</button>
+        <button class="refresh-button">Refresh</button>
+
+        <!-- <label for="fname">Location:</label>
+            <input type="text" id="location" name="location">
+            <button onclick="callGeocodingAPI()">Call Geocoding API</button> -->
 
 
-    <!-- Modal for event input -->
-    <dialog class="modal">
-        <div class="modal-content">
-            <form class="event-form" id="event-form" method="dialog">
-            
-                <label for="new-event-name">Event Name</label>
-                <input id="new-event-name" type="text"></input>
-            
-                <label for="new-event-description">Event Description</label>
-                <textarea id="new-event-description" rows="4" cols="50"></textarea>
-            
+        <!-- Modal for event input -->
+        <dialog class="modal">
+            <div class="modal-content">
+                <form class="event-form" id="event-form" method="dialog">
+
+                    <label for="new-event-name">Event Name</label>
+                    <input id="new-event-name" type="text"></input>
+
+                    <label for="new-event-description">Event Description</label>
+                    <textarea id="new-event-description" rows="4" cols="50"></textarea>
+
+                    <fieldset>
+                        <legend>Date</legend>
+                        <label for="">
+                            Date:
+                            <input id="new-event-date" type="date">
+                        </label>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Time</legend>
+                        <label for="new-event-start-time">Start Time:
+                            <input id="new-event-start-time" type="time">
+                        </label>
+
+                        <label for="new-event-end-time">End Time:
+                            <input id="new-event-end-time" type="time">
+                        </label>
+                    </fieldset>
+
+                    <label for="new-event-location">Event Location</label>
+                    <label class="sample" for="sample input">Sample Input: 260 Aldrich Hall Irvine, CA 92697</label>
+                    <input id="new-event-location" type="text"></input>
+                    <button class="submit-modal" type="submit">Submit</button>
+                </form>
+
+            </div>
+            <button class="close-modal">Close</button>
+        </dialog>
+
+        <!-- display event here -->
+        <div class="event-description">
+
+
+        </div>
+        
+     
+
+        <div class="event-container" id="event-container"></div>
+
+        <!-- Modal for event edit -->
+        <dialog class="edit-modal">
+            <form class="event-form" id="edit-event-form" method="dialog">
+
+                <label for="edit-event-name">Event Name</label>
+                <input id="edit-event-name" type="text">
+
+                <label for="edit-event-description">Event Description</label>
+                <textarea id="edit-event-description" rows="4" cols="50"></textarea>
+
                 <fieldset>
                     <legend>Date</legend>
-                    <label for="">
-                        Date:
-                        <input id="new-event-date" type="date">
+                    <label for="edit-event-date">Date:
+                        <input id="edit-event-date" type="date">
                     </label>
                 </fieldset>
-            
+
                 <fieldset>
                     <legend>Time</legend>
-                    <label for="new-event-start-time">Start Time:
-                        <input id="new-event-start-time" type="time">
+                    <label for="edit-event-start-time">Start Time:
+                        <input id="edit-event-start-time" type="time">
                     </label>
-            
-                    <label for="new-event-end-time">End Time:
-                        <input id="new-event-end-time" type="time">
+
+                    <label for="edit-event-end-time">End Time:
+                        <input id="edit-event-end-time" type="time">
                     </label>
                 </fieldset>
-            
-                <label for="new-event-location">Event Location</label>
-                <label class="sample" for="sample input">Sample Input: 260 Aldrich Hall Irvine, CA 92697</label>
-                <input id="new-event-location" type="text"></input>
-            
-                <button class="submit-modal" type="submit">Submit</button>
+
+                <label for="edit-event-location">Event Location</label>
+                <input id="edit-event-location" type="text">
+                
+                <button class="submit-modal" type="submit">Save Changes</button>
             </form>
-            
+        </dialog>
+
+
+
+        <!-- display weather forecast here -->
+        <div id="forecastDataContainer">
+
+
+
         </div>
-        <button class="close-modal">Close</button>
-    </dialog>
-
-    <!-- display event here -->
-    <div class="event-description">
-
     </div>
 
-
-    <button class="refresh-button">refresh</button>
-    
-    <div class = "event-container" id = "event-container"></div>
-
-    <!-- Modal for event edit -->
-    <dialog class="edit-modal">
-        <form class = "event-form" id="edit-event-form" method="dialog">
-            
-            <label for="edit-event-name">Event Name</label>
-            <input id="edit-event-name" type="text">
-    
-            <label for="edit-event-description">Event Description</label>
-            <textarea id="edit-event-description" rows="4" cols="50"></textarea>
-    
-            <fieldset>
-                <legend>Date</legend>
-                <label for="edit-event-date">Date:
-                    <input id="edit-event-date" type="date">
-                </label>
-            </fieldset>
-
-            <fieldset>
-                <legend>Time</legend>
-                <label for="edit-event-start-time">Start Time:
-                    <input id="edit-event-start-time" type="time">
-                </label>
-
-                <label for="edit-event-end-time">End Time:
-                    <input id="edit-event-end-time" type="time">
-                </label>
-            </fieldset>
-    
-            <label for="edit-event-location">Event Location</label>
-            <input id="edit-event-location" type="text">
-    
-            <button class="submit-modal" type="submit">Save Changes</button>
-        </form>
-    </dialog>
-
-
-
-    <!-- display weather forecast here -->
-    <div id="forecastDataContainer">
-
-
-
-    </div>
+   
 
     <script src="index.js">
         
@@ -134,8 +138,7 @@ color coding by newly added event, event that are just modified ✓
 Do something to show an event is completed ✓
 
 Display Weather/Hightlight the date of which the event happen?
-    clickin on weather displays the 10 day forecast for that specific event. 
-    But it still opens the editing window, this needs to be fixed***
+    
 
 Error handeling
 CSS/Responsive ✓
