@@ -217,10 +217,28 @@
 
     //display dailyReport data in a table
     function displayData(dailyReport){
-        const dataContainer = document.getElementById('forecastDataContainer');
+        const dataContainer = document.getElementById(currentEventId).querySelector('.forecastDataContainer');
+        console.log(dataContainer);
         
         //empty the div container
         dataContainer.innerHTML = ''; 
+
+
+        //remove the weather table
+        const cancelButton = document.createElement('button');
+        cancelButton.textContent = 'X';
+        cancelButton.style.marginTop = '10px';
+        cancelButton.onclick = (event) => {
+            event.stopPropagation();
+            dataContainer.innerHTML = '';
+        };
+        dataContainer.appendChild(cancelButton);
+
+        const label = document.createElement('label');
+        label.textContent = 'Weather Next Week';
+        dataContainer.appendChild(label);
+
+
         // Create a table 
         const table = document.createElement('table');
         const headerRow = document.createElement('tr');
@@ -332,6 +350,8 @@
                 <button class="delete-button">Delete</button>           
                 <button class="mark-complete-button">Complete</button>
                 <button class="get-weather-button">Weather</button >
+
+                <div class="forecastDataContainer"></div>
                 
             `;
 
@@ -382,14 +402,16 @@
                 eventDiv.classList.remove("completed-event");
             }
             localStorage.setItem(eventData.id, JSON.stringify(completion));
-
+            
             console.log("event id:", eventData.id);
         };
 
         //get weather forecast
         eventDiv.querySelector(".get-weather-button").onclick = (event) => {
             event.stopPropagation();
-            const address = document.getElementById("edit-event-location").value; 
+            currentEventId = eventData.id;
+            const address = document.getElementById(eventData.id).querySelector('.event-location').textContent;
+            console.log(currentEventId);
             callGeocodingAPI(address); 
 
 
