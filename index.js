@@ -82,7 +82,7 @@
     });
 
     // Event listener to handle form submission when creating new events
-    document.getElementById("event-form").addEventListener("submit", () => {
+    document.getElementById("event-form").addEventListener("submit", async () => {
 
         const Id = `event-${Date.now()}-${Math.floor(Math.random() * 100000)}`;
         const eventName = document.getElementById("new-event-name").value;
@@ -107,11 +107,11 @@
             startTime: startTime,
             endTime : endTime,
             location: eventLocation,
-            completed: "false"
+            completed: false
         };
         //Save data
         localStorage.setItem(Id, JSON.stringify(eventData));
-        const eventContainer = insertEventToEventList(eventData);
+        const eventContainer = await insertEventToEventList(eventData);
         eventContainer.classList.add("newly-added");
 
 
@@ -173,32 +173,25 @@
 
         console.log(encodeURIComponent(address));
 
-        const coordinates = fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                if (data.results && data.results.length > 0) {
-                        const location = data.results[0].geometry.location;
-                        const latitude = location.lat;
-                        const longitude = location.lng;
-                        console.log(latitude + " " + longitude);
-                        
-                        return { latitude, longitude };
-                }
-            })
-            .then(coordinates => {
-                //callWeatherAPI(coordinates.latitude, coordinates.longitude);
-                callWeatherAPI(coordinates.latitude, coordinates.longitude).then((result) => {
-                    temperature = result[0].temperature; 
-                   // console.log("Temperature in callGeo is: ", temperature); 
-                    //console.log("Temperature in callGeo result is: ", result[0].temperature); 
-
-                });
-
-
-            })
-            .catch(error => {
-                console.error('Error', error);
-            });
+        return fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.results && data.results.length > 0) {
+                const location = data.results[0].geometry.location;
+                const latitude = location.lat;
+                const longitude = location.lng;
+                console.log(latitude + " " + longitude);
+                
+                return callWeatherAPI(latitude, longitude)
+                    .then(weatherResult => {
+                        return weatherResult;
+                    });
+            }
+        })
+    .catch(error => {
+        console.error('Error', error);
+        throw error;
+    });
     }
 
     async function callWeatherAPI(latitude, longitude) {
@@ -229,8 +222,6 @@
                 dailyReport.push(filteredData)
             }
 
-            console.log(dailyReport);
-            displayData(dailyReport)
             return dailyReport;
 
         } catch (error) {
@@ -241,7 +232,6 @@
     //display dailyReport data in a table
     function displayData(dailyReport){
         const dataContainer = document.getElementById(currentEventId).querySelector('.forecastDataContainer');
-        console.log(dataContainer);
         
         //empty the div container
         dataContainer.innerHTML = ''; 
@@ -353,20 +343,19 @@
 
 
     /* Invokes callGeocodingApi to assign the temperature value */
-    function getTemp(address){
-        callGeocodingAPI(address); 
-        let temp = temperature; 
+    async function getTemp(address){
+        const temperature = await callGeocodingAPI(address); 
 
         // console.log("\n\ngetTemp called...\n\n")
         // console.log("City in getTemp is: " + address)
         // console.log("temperuture in getTemp ", temp);        
-        return temp;
+        return temperature[0].temperature;
 
     }
 
 
     //Insert a eventData to the front of div class "event-container"
-    function insertEventToEventList(eventData)
+    async function insertEventToEventList(eventData)
     {
 
         const eventContainer = document.getElementById("event-container");
@@ -409,8 +398,15 @@
         tempDiv.id = 'display-temp'
 
         tempDiv.innerHTML = ' ';
-        tempDiv.textContent = getTemp(eventData.location) + ' °C'; 
-        eventDiv.appendChild(tempDiv)
+
+        try{
+            tempDiv.textContent = await getTemp(eventData.location) + ' °F'; 
+            eventDiv.appendChild(tempDiv)
+        } catch(e)
+        {
+
+        }
+        
 
 
 
@@ -466,7 +462,7 @@
             event.stopPropagation();
             console.log("event id:", eventData.id);
             localStorage.removeItem(eventData.id);
-            loadEvents();
+            document.getElementById(eventData.id).remove();
 
         };
      
@@ -485,19 +481,26 @@
             }
             localStorage.setItem(eventData.id, JSON.stringify(completion));
             
-            console.log("event id:", eventData.id);
         };
 
         //get weather forecast
-        eventDiv.querySelector(".get-weather-button").onclick = (event) => {
+        eventDiv.querySelector(".get-weather-button").onclick = async (event) => {
             event.stopPropagation();
             
             const id = JSON.parse(localStorage.getItem(eventData.id));
             callGeocodingAPI(id.location); 
             currentEventId = eventData.id;
             const address = document.getElementById(eventData.id).querySelector('.event-location').textContent;
-            console.log(currentEventId);
-            callGeocodingAPI(address); 
+
+            try
+            {
+                const dailyReport = await callGeocodingAPI(address); 
+                displayData(dailyReport);
+            }
+            catch (error) {
+                window.alert("Error fetching weather, please check if location is entered correctly");
+                console.error('Error fetching data:', error);
+            }
 
 
         };
