@@ -1,14 +1,33 @@
+/* center everything on the front page */
+.front-page{
+    display: grid;
+    place-items: center;
+    margin: 20px auto;
+    padding: 20px;
+    width: 75%;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 5px 0px;
+}
+
 #forecastDataContainer{
-    padding: 20px 24px;
-    border-radius: 5px;
     font-size: 20px;
-    
+    width: 90%;
+    box-shadow: 0 1px 5px 0px;
+    border-radius: 10px;
     
 }
 
+h1{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 40px;
+}
+
+
+
 table {
-    width: 80%;
-    margin: 20px 0;
+    width: 100%;
+    border-radius: 10px;
 }
 
 th,
@@ -20,6 +39,7 @@ td {
 th {
     background-color: #06386b;
     color: white;
+    border-radius: 10px;
     
 }
 
@@ -36,20 +56,17 @@ tr:nth-child(even) td {
 
 
 /* add event button */
-.open-modal{
-    
+.open-modal, .refresh-button{
+    margin-bottom: 10px;
+    width: 20%;
     padding: 12px 24px;
     font-size: 18px;
     font-weight: bold;
     background: linear-gradient(145deg, #2c73bb, #06386b);
-    
-    /* Add some gradient effect */
     color: white;
     border: none;
     border-radius: 50px;
-    cursor: pointer;
     box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
 
 }
 
@@ -57,9 +74,9 @@ tr:nth-child(even) td {
     background: linear-gradient(145deg, #094D92,#C3F73A);
     box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2);
 }
-
-.open-modal:active {
-    transform: scale(0.98);
+.refresh-button:hover {
+    background: linear-gradient(145deg, #094D92,#C3F73A);
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .refresh-button{
@@ -86,6 +103,7 @@ tr:nth-child(even) td {
 .refresh-button:active {
     transform: scale(0.98);
 }
+
 
 
 /* Outer box */
@@ -164,6 +182,8 @@ tr:nth-child(even) td {
     font-size: 16px;
     padding: 15px;
 }
+
+
 .edit-modal input, textarea{
     background-color: #f9f9f9;
     margin-bottom: 15px;
@@ -204,26 +224,32 @@ input:focus, textarea:focus {
 
 
 
-/* 
 
+/* Change background color for new and edited events */
 .newly-added {
-    background-color: aqua;
+    background-color: #f3efef;
 }
 
 .recently-edited {
-    background-color: rgb(250, 182, 98);
+    background-color: #d4dbe4;
 }  
 
-*/
 
+/*
 .completed-event .event-name {
     text-decoration: line-through;
-    color:#04A777
+    color:#00A896
 }
 .completed-event .event-description {
     text-decoration: line-through;
-    color:#04A777
+    color:#00A896
 }
+
+*/
+.completed-event{
+    background-color:#b3d8d45d
+}
+
 
 .sample{
     color: gray;
@@ -233,16 +259,20 @@ input:focus, textarea:focus {
 /* Event List Styles */
 
 .event-container {
+
     background: #fff;
     padding: 30px;
     width: 90%;
     text-align: left;
-    position: relative;
 }
 /* style each event thats dynamically added */
 .events {
-    background-color: rgba(150, 150, 168, 0.1);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; 
+
+    box-shadow: 0 1px 5px 0px;
     padding: 20px;
     margin-bottom: 15px;
     border-radius: 10px;
@@ -259,6 +289,7 @@ input:focus, textarea:focus {
     font-size: 18px;
     color: black;
     margin-bottom: 10px;
+    width: 80%;
 }
 
 .event-info {
@@ -267,7 +298,7 @@ input:focus, textarea:focus {
     margin-bottom: 10px;
 }
 .event-location {
-    font-size: 12px;
+    font-size: 14px;
     color: black;
     margin-top: 10px;
 }
@@ -277,12 +308,63 @@ input:focus, textarea:focus {
     margin-right: 50px;
 }
 
+/* style the delete, complete and get weather buttons */
+
 .delete-button {
-    /* add style here */
+    font-size: 13px;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    background-color: #c23631;
 
 }
-.mark-complete-button {
-   
-    /* add style here */
+.delete-button:hover {
+    background-color: #f05c57;
+    font-size: 13.5px;
 
+}
+
+.mark-complete-button {
+    
+    font-size: 13px;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    background-color: #00A896;
+
+    
+}
+.mark-complete-button:hover {
+    
+    background-color: #15beae;
+    font-size: 13.5px;
+
+    
+}
+
+
+
+.get-weather-button {
+    font-size: 13px;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    background-color:#28587B;
+
+}
+
+.get-weather-button:hover {
+    background-color:#3f8fc9;
+    font-size: 13.5px;
+
+}
+
+#display-temp {
+    font-size: 30px;
+    font-weight: bold;
+    color: #06386b;
+    margin-bottom: 10px;
 }

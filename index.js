@@ -12,6 +12,11 @@
 
     //current ID to edit
     let currentEventId = null;
+    let address = null; 
+
+    //global temperature variable
+    let temperature = 0; 
+
 
 // ** 2. Initial Setup **
 
@@ -109,9 +114,13 @@
         const eventContainer = insertEventToEventList(eventData);
         eventContainer.classList.add("newly-added");
 
+
+
+       
         //clear input after submission and close
         document.getElementById("event-form").reset();
         document.querySelector(".modal").close();
+
         
 
     });
@@ -141,17 +150,23 @@
             eventToEditDiv.querySelector(".event-location").innerHTML = `<strong>Location:</strong> ${eventToEdit.location}`;
             eventToEditDiv.classList.add("recently-edited");
 
+
+
             // Reset currentEventId
             currentEventId = null;
 
+
+
             document.querySelector(".edit-modal").close();
+
+
+
         }
     });
 
 
 
 // ** 4. Main Functions / Helper Functions **
-
     async function callGeocodingAPI(address) {
         const apiKey = 'AIzaSyDI5PSATFRSVSgm9_BoWtZHYw-9YdbUWT4';
         const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
@@ -171,7 +186,15 @@
                 }
             })
             .then(coordinates => {
-                callWeatherAPI(coordinates.latitude, coordinates.longitude);
+                //callWeatherAPI(coordinates.latitude, coordinates.longitude);
+                callWeatherAPI(coordinates.latitude, coordinates.longitude).then((result) => {
+                    temperature = result[0].temperature; 
+                   // console.log("Temperature in callGeo is: ", temperature); 
+                    //console.log("Temperature in callGeo result is: ", result[0].temperature); 
+
+                });
+
+
             })
             .catch(error => {
                 console.error('Error', error);
@@ -329,6 +352,19 @@
     }
 
 
+    /* Invokes callGeocodingApi to assign the temperature value */
+    function getTemp(address){
+        callGeocodingAPI(address); 
+        let temp = temperature; 
+
+        // console.log("\n\ngetTemp called...\n\n")
+        // console.log("City in getTemp is: " + address)
+        // console.log("temperuture in getTemp ", temp);        
+        return temp;
+
+    }
+
+
     //Insert a eventData to the front of div class "event-container"
     function insertEventToEventList(eventData)
     {
@@ -337,6 +373,8 @@
         const eventDiv = document.createElement("div");
         eventDiv.classList.add("events");
         eventDiv.innerHTML = `
+            <div>
+
                 <h3 class="event-name"> ${eventData.name}</h3>
                 <div class="event-description"> ${eventData.description}</div>
                 
@@ -345,20 +383,42 @@
                     <span class="event-start-time"><strong>Start Time:</strong> ${eventData.startTime}</span>
                     <span class="event-end-time"><strong>End Time:</strong> ${eventData.endTime}</span>
                     <span class="event-location"><strong>Location:</strong> ${eventData.location}</span>
-
                 </div>
                 <button class="delete-button">Delete</button>           
                 <button class="mark-complete-button">Complete</button>
                 <button class="get-weather-button">Weather</button >
 
                 <div class="forecastDataContainer"></div>
+
+            <div>
                 
-            `;
+        `;
+        
+        /*Dynamically creates a div to display temperature for each event
+          upon adding an event.
+        */
+       
+        const removeTempDiv = eventDiv.querySelector('display-temperature');
+        if(removeTempDiv){
+            eventDiv.removeChild(removeTempDiv);
+        }
+        
+        
+
+        const tempDiv = document.createElement('display-temperature');
+        tempDiv.id = 'display-temp'
+
+        tempDiv.innerHTML = ' ';
+        tempDiv.textContent = getTemp(eventData.location) + ' °C'; 
+        eventDiv.appendChild(tempDiv)
+
+
+
 
         eventDiv.id = eventData.id;
         if(eventData.completed == true)
         {
-            eventDiv.classList.add("completed-event");
+        eventDiv.classList.add("completed-event");
         }
 
         eventDiv.onclick = () => {
@@ -374,10 +434,32 @@
             document.getElementById("edit-event-start-time").value = eventToEdit.startTime;
             document.getElementById("edit-event-end-time").value = eventToEdit.endTime;
             document.getElementById("edit-event-location").value = eventToEdit.location;
-
+            
             currentEventId = eventData.id;
             openEditModal.showModal();
             document.getElementById("edit-event-date").setAttribute("min", today);
+            
+            
+            /*Dynamically creates a div to display temperature for each event
+            upon editing the event.
+            
+            const removeTempDiv = eventDiv.querySelector('display-temperature');
+            if(removeTempDiv){
+                eventDiv.removeChild(removeTempDiv);
+            }
+            
+         
+            const tempDiv = document.createElement('display-temperature');
+            tempDiv.id = 'display-temp'
+
+            tempDiv.innerHTML = ' ';
+            tempDiv.textContent = getTemp(eventToEdit.location) + ' °C'; 
+            eventDiv.appendChild(tempDiv)
+            
+            */
+            
+            
+            
         };
 
         eventDiv.querySelector(".delete-button").onclick = (event) => {
@@ -409,6 +491,9 @@
         //get weather forecast
         eventDiv.querySelector(".get-weather-button").onclick = (event) => {
             event.stopPropagation();
+            
+            const id = JSON.parse(localStorage.getItem(eventData.id));
+            callGeocodingAPI(id.location); 
             currentEventId = eventData.id;
             const address = document.getElementById(eventData.id).querySelector('.event-location').textContent;
             console.log(currentEventId);
