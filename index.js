@@ -239,6 +239,7 @@
 
         //remove the weather table
         const cancelButton = document.createElement('button');
+        cancelButton.classList.add("cancel-button");
         cancelButton.textContent = 'X';
         cancelButton.style.marginTop = '10px';
         cancelButton.onclick = (event) => {

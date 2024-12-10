@@ -8,6 +8,7 @@
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 1px 5px 0px;
+    min-width: 500px;
 }
 
 #forecastDataContainer{
@@ -53,21 +54,26 @@ tr:nth-child(even) td {
 
 }
 
+.title-text {
+    font-size: calc(10px + 2vw);
+    transition: all 0.3s ease;
+}
 
 
 /* add event button */
 .open-modal, .refresh-button{
     margin-bottom: 10px;
-    width: 20%;
-    padding: 12px 24px;
-    font-size: 18px;
+    width: 30%;
+    min-width: 30%;
+    padding: calc(15px + 0.25vw);;
+    font-size: calc(10px + 0.5vw);
     font-weight: bold;
     background: linear-gradient(145deg, #2c73bb, #06386b);
     color: white;
     border: none;
     border-radius: 50px;
     box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
-
+    transition: all 0.3s ease;
 }
 
 .open-modal:hover {
@@ -80,12 +86,6 @@ tr:nth-child(even) td {
 }
 
 .refresh-button{
-
-    padding: 12px 24px;
-    font-size: 18px;
-    font-weight: bold;
-    background: linear-gradient(145deg, #2c73bb, #06386b);
-    
     /* Add some gradient effect */
     color: white;
     border: none;
@@ -276,6 +276,7 @@ input:focus, textarea:focus {
     padding: 20px;
     margin-bottom: 15px;
     border-radius: 10px;
+    
 }
 
 .event-name {
@@ -367,4 +368,20 @@ input:focus, textarea:focus {
     font-weight: bold;
     color: #06386b;
     margin-bottom: 10px;
+}
+
+.cancel-button {
+    font-size: 8px;
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    background-color: #c23631;
+
+}
+
+.cancel-button:hover {
+    background-color: #f05c57;
+    font-size: 8.3px;
+
 }
