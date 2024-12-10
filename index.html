@@ -26,8 +26,8 @@
                 <form class="event-form" id="event-form" method="dialog">
 
                     <label for="new-event-name">Event Name</label>
-                    <input id="new-event-name" type="text"></input>
-
+                    <input id="new-event-name" type="text" required></input>
+                   
                     <label for="new-event-description">Event Description</label>
                     <textarea id="new-event-description" rows="4" cols="50"></textarea>
 
@@ -52,7 +52,7 @@
 
                     <label for="new-event-location">Event Location</label>
                     <label class="sample" for="sample input">Sample Input: 260 Aldrich Hall Irvine, CA 92697</label>
-                    <input id="new-event-location" type="text"></input>
+                    <input id="new-event-location" type="text" required placeholder="Provide address as noted in the sample"></input>
                     <button class="submit-modal" type="submit">Submit</button>
                 </form>
 
@@ -72,7 +72,7 @@
             <form class="event-form" id="edit-event-form" method="dialog">
 
                 <label for="edit-event-name">Event Name</label>
-                <input id="edit-event-name" type="text">
+                <input id="edit-event-name" type="text" required>
 
                 <label for="edit-event-description">Event Description</label>
                 <textarea id="edit-event-description" rows="4" cols="50"></textarea>
@@ -96,7 +96,8 @@
                 </fieldset>
 
                 <label for="edit-event-location">Event Location</label>
-                <input id="edit-event-location" type="text">
+                <label class="sample" for="sample input">Sample Input: 260 Aldrich Hall Irvine, CA 92697</label>
+                <input id="edit-event-location" type="text" required placeholder="Provide address as noted in the sample">
                 
                 <button class="submit-modal" type="submit">Save Changes</button>
             </form>
@@ -135,6 +136,7 @@ Display Weather/Hightlight the date of which the event happen?
     
 
 Error handeling
+
 CSS/Responsive ✓
 
 ReadMe
