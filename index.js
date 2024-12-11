@@ -345,11 +345,7 @@
 
     /* Invokes callGeocodingApi to assign the temperature value */
     async function getTemp(address){
-        const temperature = await callGeocodingAPI(address); 
-
-        // console.log("\n\ngetTemp called...\n\n")
-        // console.log("City in getTemp is: " + address)
-        // console.log("temperuture in getTemp ", temp);        
+        const temperature = await callGeocodingAPI(address);        
         return temperature[0].temperature;
 
     }
@@ -434,28 +430,7 @@
             
             currentEventId = eventData.id;
             openEditModal.showModal();
-            document.getElementById("edit-event-date").setAttribute("min", today);
-            
-            
-            /*Dynamically creates a div to display temperature for each event
-            upon editing the event.
-            
-            const removeTempDiv = eventDiv.querySelector('display-temperature');
-            if(removeTempDiv){
-                eventDiv.removeChild(removeTempDiv);
-            }
-            
-         
-            const tempDiv = document.createElement('display-temperature');
-            tempDiv.id = 'display-temp'
-
-            tempDiv.innerHTML = ' ';
-            tempDiv.textContent = getTemp(eventToEdit.location) + ' °C'; 
-            eventDiv.appendChild(tempDiv)
-            
-            */
-            
-            
+            document.getElementById("edit-event-date").setAttribute("min", today);           
             
         };
 
@@ -499,7 +474,7 @@
                 displayData(dailyReport);
             }
             catch (error) {
-                window.alert("Error fetching weather, please check if location is entered correctly");
+                window.alert("Error etching weather, please check i location is entered correctly");
                 console.error('Error fetching data:', error);
             }
 

@@ -8,13 +8,11 @@
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 1px 5px 0px;
-    min-width: 500px;
 }
 
-#forecastDataContainer{
-    font-size: 20px;
-    width: 90%;
-    box-shadow: 0 1px 5px 0px;
+.forecastDataContainer{
+    font-size: 14px;
+    width: 100%;
     border-radius: 10px;
     
 }
@@ -29,12 +27,16 @@ h1{
 table {
     width: 100%;
     border-radius: 10px;
+    table-layout: fixed;
+    font-size: 15px;
 }
 
 th,
 td {
     text-align: left;
     padding: 10px;
+    word-wrap: break-word;
+    border-radius: 10px;
 }
 
 th {
@@ -54,19 +56,15 @@ tr:nth-child(even) td {
 
 }
 
-.title-text {
-    font-size: calc(10px + 2vw);
-    transition: all 0.3s ease;
-}
+
 
 
 /* add event button */
 .open-modal, .refresh-button{
     margin-bottom: 10px;
     width: 30%;
-    min-width: 30%;
-    padding: calc(15px + 0.25vw);;
-    font-size: calc(10px + 0.5vw);
+    padding: 20px;
+    font-size: 2vw;
     font-weight: bold;
     background: linear-gradient(145deg, #2c73bb, #06386b);
     color: white;
@@ -74,6 +72,7 @@ tr:nth-child(even) td {
     border-radius: 50px;
     box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .open-modal:hover {
@@ -86,11 +85,9 @@ tr:nth-child(even) td {
 }
 
 .refresh-button{
-    /* Add some gradient effect */
     color: white;
     border: none;
     border-radius: 50px;
-    cursor: pointer;
     box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
 }
@@ -111,7 +108,7 @@ tr:nth-child(even) td {
     justify-content: center;
     align-items: center;
     border: 3px solid #094D92;
-    width: 50%;
+    width: 40vw;
     border-radius: 5px;
     font-size: 20px;
 }
@@ -121,7 +118,7 @@ tr:nth-child(even) td {
     justify-content: center;
     align-items: center;
     border: 3px solid #094D92;
-    width: 40%;
+    width: 40vw;
     border-radius: 5px;
     font-size: 20px;
 }
@@ -129,14 +126,12 @@ tr:nth-child(even) td {
 /* inner box */
 .event-form {
     background: #fff;
-    padding: 30px;
     border-radius: 15px;
+    padding: 5%; 
     width: 90%;
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
     text-align: left;
-    position: relative;
     transform: scale(0.8);
-    
     
 }
 
@@ -235,17 +230,7 @@ input:focus, textarea:focus {
 }  
 
 
-/*
-.completed-event .event-name {
-    text-decoration: line-through;
-    color:#00A896
-}
-.completed-event .event-description {
-    text-decoration: line-through;
-    color:#00A896
-}
 
-*/
 .completed-event{
     background-color:#b3d8d45d
 }
@@ -260,8 +245,6 @@ input:focus, textarea:focus {
 
 .event-container {
 
-    background: #fff;
-    padding: 30px;
     width: 90%;
     text-align: left;
 }
@@ -273,9 +256,10 @@ input:focus, textarea:focus {
     align-items: flex-start; 
 
     box-shadow: 0 1px 5px 0px;
-    padding: 20px;
+    padding: 5%;
     margin-bottom: 15px;
     border-radius: 10px;
+    width: 90%;
     
 }
 
@@ -290,7 +274,7 @@ input:focus, textarea:focus {
     font-size: 18px;
     color: black;
     margin-bottom: 10px;
-    width: 80%;
+    width: 90%;
 }
 
 .event-info {
@@ -318,6 +302,7 @@ input:focus, textarea:focus {
     border-radius: 6px;
     color: white;
     background-color: #c23631;
+    cursor: pointer;
 
 }
 .delete-button:hover {
@@ -334,6 +319,7 @@ input:focus, textarea:focus {
     border-radius: 6px;
     color: white;
     background-color: #00A896;
+    cursor: pointer;
 
     
 }
@@ -354,6 +340,7 @@ input:focus, textarea:focus {
     border-radius: 6px;
     color: white;
     background-color:#28587B;
+    cursor: pointer;
 
 }
 
@@ -364,10 +351,10 @@ input:focus, textarea:focus {
 }
 
 #display-temp {
-    font-size: 30px;
+    font-size: 3vw;
     font-weight: bold;
     color: #06386b;
-    margin-bottom: 10px;
+    min-width: fit-content;
 }
 
 .cancel-button {
@@ -377,6 +364,8 @@ input:focus, textarea:focus {
     border-radius: 6px;
     color: white;
     background-color: #c23631;
+    margin-right: 5px;
+    cursor: pointer;
 
 }
 
@@ -384,4 +373,8 @@ input:focus, textarea:focus {
     background-color: #f05c57;
     font-size: 8.3px;
 
+}
+input[type="date"],
+input[type="time"] {
+    width: 20vw;
 }
