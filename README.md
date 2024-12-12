@@ -7,7 +7,7 @@ Features:
   - Delete Event
   - Get weather forecast for each event
 
-To run the project in our local machine:
+To run the project in your local machine:
   - Download the following 3 files and put them in one folder:
       - index.html
       - index.js
